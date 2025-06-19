@@ -6,7 +6,7 @@ import grafico_mapa as graf1
 import grafico_Dispercion as graf2
 import precio_ingresos as graf3
 
-import base64
+
 
 
 st.set_page_config(layout='wide')#siempre va mostrar modo ancho de la pantalla 
@@ -172,31 +172,19 @@ elif opcion == "README":
 
     """, unsafe_allow_html=True)
 
-
-
 elif opcion == "Gráficas":
     st.title("📊 Galería de Gráficas desde PDF")
 
-    # Ruta local al PDF (debe estar en la misma carpeta que tu script)
-    ruta_pdf = "graficas.pdf"
+    url_pdf = "https://raw.githubusercontent.com/bruxly/Valor_promedio_Viviendas_California/main/Graficas.pdf"
 
     try:
-        with open('Graficas.pdf', "rb") as f:
-            datos_pdf = f.read()
-            datos_b64 = base64.b64encode(datos_pdf).decode('utf-8')
-
-            pdf_viewer = f'''
-                <iframe
-                    src="data:application/pdf;base64,{datos_b64}"
-                    width="100%" height="800px" type="application/pdf">
-                </iframe>
-            '''
-
-            st.markdown(pdf_viewer, unsafe_allow_html=True)
-            st.info("Desplázate para ver todas las gráficas del PDF 📄")
-
-    except FileNotFoundError:
-        st.error("❌ No se encontró el archivo 'graficas.pdf'. Asegúrate de que esté en el mismo directorio.")
+        st.markdown(
+            f'<a href="{url_pdf}" target="_blank" rel="noopener noreferrer">📄 Abrir PDF en una nueva pestaña</a>',
+            unsafe_allow_html=True
+        )
+        st.info("Haz clic en el enlace para ver las gráficas en el visor de tu navegador.")
+    except Exception as e:
+        st.error(f"❌ Error mostrando el PDF: {e}")
 
 elif opcion == 'Certificado':
     st.title('Certificado del Proyecto')
