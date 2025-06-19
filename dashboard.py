@@ -1,4 +1,4 @@
-from pdf2image.pdf2image import convert_from_path
+
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -6,7 +6,7 @@ import grafico_mapa as graf1
 import grafico_Dispercion as graf2
 import precio_ingresos as graf3
 
-from pdf2image import convert_from_bytes
+import base64
 
 
 st.set_page_config(layout='wide')#siempre va mostrar modo ancho de la pantalla 
@@ -177,20 +177,26 @@ elif opcion == "README":
 elif opcion == "Gráficas":
     st.title("📊 Galería de Gráficas desde PDF")
 
-    # Ruta local al archivo PDF (debe estar en la misma carpeta del script o especificar la ruta)
+    # Ruta local al PDF (debe estar en la misma carpeta que tu script)
     ruta_pdf = "graficas.pdf"
 
     try:
-        paginas = convert_from_path(ruta_pdf)
+        with open('Graficas.pdf', "rb") as f:
+            datos_pdf = f.read()
+            datos_b64 = base64.b64encode(datos_pdf).decode('utf-8')
 
-        st.info("Mostrando las gráficas contenidas en el PDF…")
+            pdf_viewer = f'''
+                <iframe
+                    src="data:application/pdf;base64,{datos_b64}"
+                    width="100%" height="800px" type="application/pdf">
+                </iframe>
+            '''
 
-        for i, pagina in enumerate(paginas):
-            st.image(pagina, caption=f"Gráfica {i+1}", use_container_width=True)
+            st.markdown(pdf_viewer, unsafe_allow_html=True)
+            st.info("Desplázate para ver todas las gráficas del PDF 📄")
 
-    except Exception as e:
-        st.error(f"❌ Error al cargar el PDF: {e}")
-
+    except FileNotFoundError:
+        st.error("❌ No se encontró el archivo 'graficas.pdf'. Asegúrate de que esté en el mismo directorio.")
 
 elif opcion == 'Certificado':
     st.title('Certificado del Proyecto')
