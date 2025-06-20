@@ -1,3 +1,4 @@
 plotly == 6.0.1 
 pandas  == 2.2.3
 pdf2image == 1.17.0  
+pillow   == 11.1.0 
