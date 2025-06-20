@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -6,7 +5,7 @@ import grafico_mapa as graf1
 import grafico_Dispercion as graf2
 import precio_ingresos as graf3
 
-
+from PIL import Image
 
 
 st.set_page_config(layout='wide')#siempre va mostrar modo ancho de la pantalla 
@@ -19,7 +18,7 @@ st.sidebar.image('logo.jpg')
 # Barra lateral con menú de navegación
 
 st.sidebar.title("Back-end")
-opcion = st.sidebar.radio("Menú", ["Inicio", "README", "Gráficas","Certificado"])
+opcion = st.sidebar.radio("Menú", ["Inicio", "Certificado","Instructores","README", "Gráficas"])
 
 
 if opcion == "Inicio":
@@ -76,6 +75,52 @@ if opcion == "Inicio":
         st.markdown("<h3 style='text-align: center;'>Vivienda Básica</h3>", unsafe_allow_html=True)
         st.markdown(f"<h2 style='text-align: center; color: white;'>{formata_numero(valor_minimo)} $</h2>", unsafe_allow_html=True)
         st.plotly_chart(graf_Dispercion, use_container_width=True)
+
+
+
+elif opcion == 'Certificado':
+    st.title('Certificado del Proyecto')
+    st.image('certificado.png')
+
+
+
+
+
+elif opcion == 'Instructores':
+    st.markdown(
+        "<h1 style='text-align: center; font-size: 3.5em;margin-bottom: 40px;'>Bootcamp Xperience</h1>", 
+        unsafe_allow_html=True
+    )
+    col1, col2 = st.columns(2)
+
+    imagen1 = Image.open('alejo.png')
+    imagen2 = Image.open('sergio.png')
+
+    altura_deseada = 300
+
+    # Escalar manteniendo proporciones
+    def escalar_altura(img, altura_objetivo, ampliar_ancho=False):
+        ancho_original, alto_original = img.size
+        factor = altura_objetivo / alto_original
+        nuevo_ancho = int(ancho_original * factor)
+        
+        if ampliar_ancho:
+            nuevo_ancho = int(nuevo_ancho * 1.15)  # Aumentar el ancho un 15%
+        
+        return img.resize((nuevo_ancho, altura_objetivo))
+
+    imagen1_redimensionada = escalar_altura(imagen1, altura_deseada, ampliar_ancho=True)
+    imagen2_redimensionada = escalar_altura(imagen2, altura_deseada)
+
+    
+    with col1:
+        st.image(imagen1_redimensionada)
+
+    with col2:
+        st.image(imagen2_redimensionada)
+    
+
+
 
 
 elif opcion == "README":
@@ -172,6 +217,9 @@ elif opcion == "README":
 
     """, unsafe_allow_html=True)
 
+
+
+
 elif opcion == "Gráficas":
     st.title("📊 Galería de Gráficas desde PDF")
 
@@ -186,5 +234,4 @@ elif opcion == "Gráficas":
     except Exception as e:
         st.error(f"❌ Error mostrando el PDF: {e}")
 
-elif opcion == 'Certificado':
-    st.title('Certificado del Proyecto')
+
