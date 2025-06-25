@@ -7,7 +7,7 @@ import precio_ingresos as graf3
 
 from PIL import Image
 
-st.set_page_config(layout='wide',page_title='Modelo XGBoost Viviendas California'
+
 
 st.set_page_config(layout='wide')#siempre va mostrar modo ancho de la pantalla 
 
